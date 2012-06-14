@@ -1,0 +1,12 @@
+- case @screen_type
+- when "large"
+  %img{ :src => src_large, :alt => alt }
+- when "small"
+  %img{ :src => src, :alt => alt }
+- else
+  - if @no_js
+    %img{ :src => src, :alt => alt }
+  - else
+    %noscript{ :data => { :src => src, :large => src_large, :alt => alt }}
+      %img{ :src => src, :alt => alt }
+
