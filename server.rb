@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'sinatra'
-require 'haml'
+require "rubygems"
+require "sinatra"
+require "haml"
 
 helpers do
   def partial (template, locals = {})
@@ -10,12 +10,20 @@ helpers do
   end
 end
 
-get '/' do
+get "/" do
   response.set_cookie("cookie", 1)
   seen_before = request.cookies["cookie"].to_i == 1
-  @screen_type = request.cookies["screenType"] || 'unknown'
+  @screen_type = request.cookies["screenType"] || "unknown"
 
-  @no_js = @screen_type != 'unknown' || seen_before
+  @no_js = @screen_type != "unknown" || seen_before
+  @show_choice = @screen_type == "unknown" || @screen_type == "small"
 
   haml :index
 end
+
+post "/choice" do
+  response.set_cookie("cookie", 1)
+  response.set_cookie("screenType", params["choice"]) if params["choice"]
+  redirect "/"
+end
+

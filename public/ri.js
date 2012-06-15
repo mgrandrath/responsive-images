@@ -1,12 +1,20 @@
 (function(win, doc) {
 
+  var screenType;
+
+  function setCookie() {
+    screenType = win.screen.width > 600 ? 'large' : 'small';
+    doc.cookie = 'screenType=' + screenType + '; path=/';
+  }
+
   function insertImages() {
     var srcAttr,
         placeholders,
         item,
+        parent,
         image;
 
-    switch (win.screenType) {
+    switch (screenType) {
     case 'large':
       srcAttr = 'data-large';
       break;
@@ -20,14 +28,20 @@
 
     while (placeholders.length > 0) {
       item = placeholders.pop();
+      parent = item.parentNode;
       image = new Image();
       image.src = item.getAttribute(srcAttr);
       image.alt = item.getAttribute('data-alt');
-      item.parentNode.insertBefore(image, item);
-      item.parentNode.removeChild(item);
+      parent.insertBefore(image, item);
+      parent.removeChild(item);
     }
   }
 
-  win.addEventListener('load', insertImages);
+  function onLoad() {
+    setCookie();
+    insertImages();
+  }
+
+  win.addEventListener('load', onLoad);
 
 })(window, document);

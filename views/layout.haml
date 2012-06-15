@@ -2,17 +2,13 @@
 %html
   %head
     %meta{ :charset => "utf-8" }
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
     %title
       Responsive Images Test
     %link{ :rel => "stylesheet", :href => "css/ri.css" }
     - unless @no_js
       :javascript
-        (function(win, doc) {
-          var resolution, screenType;
-          resolution = Math.max(win.screen.width, win.screen.height);
-          screenType = win.screenType = resolution > 500 ? 'large' : 'small';
-          document.cookie='screenType='+screenType+'; path=/';
-        })(window, document);
+        document.getElementsByTagName('html')[0].className += ' js';
       %script{ :src => "ri.js", :async => true }
 
   %body

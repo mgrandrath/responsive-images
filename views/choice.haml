@@ -1,0 +1,4 @@
+- if @show_choice
+  %form.choice{ :action => "/choice", :method => "post" }
+    %input{ :type => "hidden", :name => "choice", :value => "large" }
+    %input{ :type => "submit", :value => "Show large images" }
